@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox, Typography, message } from 'antd';
+import { Form, Icon, Input, Button, Typography, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
 import './login.css';
