@@ -1,13 +1,13 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Typography, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { connect } from 'react-redux';
 
+import { loginAction } from 'states/auth';
 import './login.css';
 
-const { Title } = Typography;
-
 interface Props extends FormComponentProps {
-
+  login: typeof loginAction.request;
 }
 
 class LoginPage extends React.Component<Props> {
@@ -21,7 +21,7 @@ class LoginPage extends React.Component<Props> {
 
       const password = values['password'];
 
-      console.log(password);
+      this.props.login(password);
     });
   }
 
@@ -40,7 +40,7 @@ class LoginPage extends React.Component<Props> {
 
     return (
       <div className="login-form-container">
-        <Title>로그인</Title>
+        <Typography.Title>로그인</Typography.Title>
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
             {passwordField}
@@ -56,4 +56,8 @@ class LoginPage extends React.Component<Props> {
   }
 }
 
-export default Form.create()(LoginPage);
+const mapDispatchToProps = {
+  login: loginAction.request,
+};
+
+export default connect(undefined, mapDispatchToProps)(Form.create()(LoginPage));
