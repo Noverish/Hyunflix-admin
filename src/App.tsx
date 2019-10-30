@@ -1,11 +1,10 @@
 import React from 'react';
 
+import LoginPage from './pages/login/login';
+import 'antd/dist/antd.css';
+
 const App: React.FC = () => {
-  return (
-    <div>
-      hello, world!
-    </div>
-  );
+  return <LoginPage />;
 };
 
 export default App;
