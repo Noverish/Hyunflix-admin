@@ -1,3 +1,5 @@
+export * from './video';
+
 export interface Encode {
   id: number;
   inpath: string;
