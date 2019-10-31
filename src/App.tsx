@@ -3,10 +3,11 @@ import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import LoginPage from 'pages/login/login';
-import AdminLayout from 'pages/admin-layout';
+import IndexPage from 'pages';
 import { RootState } from 'states';
 
 import 'antd/dist/antd.css';
+import './App.css';
 
 interface Props {
   token: string;
@@ -16,7 +17,7 @@ const App: React.FC<Props> = (props) => {
   const inner = (props.token)
     ? (
       <Switch>
-        <Route component={AdminLayout} />
+        <Route component={IndexPage} />
       </Switch>
     ) : (
       <Switch>

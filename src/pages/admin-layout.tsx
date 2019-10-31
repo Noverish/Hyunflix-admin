@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 
 import './admin-layout.css';
@@ -121,4 +121,4 @@ class AdminLayout extends React.Component<Props, State> {
   }
 }
 
-export default AdminLayout;
+export default withRouter(AdminLayout);
