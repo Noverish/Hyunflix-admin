@@ -16,3 +16,13 @@ export interface File {
   size: string;
   url: string;
 }
+
+export interface Music {
+  youtube: string | null;
+  duration: number;
+  id: number;
+  path: string;
+  tags: string[];
+  title: string;
+  url: string;
+}

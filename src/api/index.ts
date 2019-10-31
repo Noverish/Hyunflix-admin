@@ -4,6 +4,7 @@ export * from './auth';
 export * from './encode';
 export * from './fs';
 export * from './video';
+export * from './music';
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
