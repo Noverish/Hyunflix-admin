@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export * from './auth';
 export * from './encode';
+export * from './fs';
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');

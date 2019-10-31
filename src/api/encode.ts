@@ -29,3 +29,22 @@ export async function encodeList(): Promise<Encode[]> {
 
   return (await axios(config)).data;
 }
+
+export async function encodeFile(inpath: string, options: string, outpath: string) {
+  const config: AxiosRequestConfig = {
+    url: `${FS_SERVER}/encode`,
+    method: 'post',
+    data: { inpath, options, outpath },
+  };
+
+  await axios(config);
+}
+
+export async function encodePresets() {
+  const config: AxiosRequestConfig = {
+    url: `${FS_SERVER}/encode/presets`,
+    method: 'get',
+  };
+
+  await axios(config);
+}
