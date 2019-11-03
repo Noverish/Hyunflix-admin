@@ -90,7 +90,7 @@ class EcodeAddPage extends React.Component<Props, State> {
               </div>
             }
             extra={
-              <Link to="/admin/encode">
+              <Link to="/encode">
                 <Button type="primary" key="console">목록 보기</Button>
               </Link>
             }

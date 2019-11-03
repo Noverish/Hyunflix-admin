@@ -65,7 +65,7 @@ class EncodePage extends React.Component<Props, State> {
             <Button icon="caret-right" onClick={this.onResumeClicked}>Resume</Button>
             <Button icon="pause" onClick={this.onPauseClicked}>Pause</Button>
           </Button.Group>
-          <Link to="/admin/encode/add" style={{ marginLeft: '12px' }}>
+          <Link to="/encode/add" style={{ marginLeft: '12px' }}>
             <Button type="primary">Add</Button>
           </Link>
         </div>
