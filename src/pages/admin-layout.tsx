@@ -23,13 +23,11 @@ class AdminLayout extends React.Component<Props, State> {
     const path: string = this.props.location.pathname;
 
     const items = [
-      { name: '비디오 인코딩', path: '/admin/encode',         icon: 'youtube' },
-      { name: '회원가입 코드', path: '/admin/register-codes', icon: 'bold' },
-      { name: '비디오 관리',   path: '/admin/video/manage',   icon: 'play-circle' },
-      { name: '비디오 검사',   path: '/admin/video/examine',  icon: 'play-circle' },
-      { name: '음악 관리',     path: '/admin/music/manage',   icon: 'customer-service' },
-      { name: '음악 검사',     path: '/admin/music/examine',  icon: 'customer-service' },
-      { name: '홈으로',        path: '/home',                 icon: 'home' },
+      { name: '비디오 인코딩', path: '/encode',         icon: 'youtube' },
+      { name: '비디오 관리',   path: '/video/manage',   icon: 'play-circle' },
+      { name: '비디오 검사',   path: '/video/examine',  icon: 'play-circle' },
+      { name: '음악 관리',     path: '/music/manage',   icon: 'customer-service' },
+      { name: '음악 검사',     path: '/music/examine',  icon: 'customer-service' },
     ];
 
     const selectedKeys: string[] = items.filter(i => path.startsWith(i.path)).map(i => i.path);
@@ -44,10 +42,11 @@ class AdminLayout extends React.Component<Props, State> {
     ));
 
     const links = [
-      { name: 'Database', path: 'http://home.hyunsub.kim:5000', icon: 'database' },
-      { name: 'Torrent', path: 'http://home.hyunsub.kim:8082', icon: 'download' },
-      { name: 'File Browser', path: 'http://home.hyunsub.kim:8090', icon: 'folder' },
-      { name: 'Visual Studio Code', path: 'http://home.hyunsub.kim:8443', icon: 'build' },
+      { name: 'Home',               path: `http://${window.location.hostname}`, icon: 'home' },
+      { name: 'Database',           path: 'http://home.hyunsub.kim:5000',       icon: 'database' },
+      { name: 'Torrent',            path: 'http://home.hyunsub.kim:8082',       icon: 'download' },
+      { name: 'File Browser',       path: 'http://home.hyunsub.kim:8090',       icon: 'folder' },
+      { name: 'Visual Studio Code', path: 'http://home.hyunsub.kim:8443',       icon: 'build' },
     ];
 
     const linkComps = links.map(i => (

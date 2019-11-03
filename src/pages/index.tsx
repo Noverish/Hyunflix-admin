@@ -14,14 +14,14 @@ const AdminPage: React.FunctionComponent = () => {
   return (
     <AdminLayout>
       <Switch>
-        <Route path="/admin/encode/add" component={EncodeAddPage} />
-        <Route path="/admin/encode" component={EncodePage} />
-        <Route path="/admin/video/manage/edit" component={VideoArticleEditPage} />
-        <Route path="/admin/video/manage" component={VideoManagePage} />
-        <Route path="/admin/video/examine" component={VideoExaminePage} />
-        <Route path="/admin/music/manage" component={MusicManagePage} />
-        <Route path="/admin/music/examine" component={MusicExaminePage} />
-        <Route><Redirect to="/admin/encode" /></Route>
+        <Route path="/encode/add" component={EncodeAddPage} />
+        <Route path="/encode" component={EncodePage} />
+        <Route path="/video/manage/edit" component={VideoArticleEditPage} />
+        <Route path="/video/manage" component={VideoManagePage} />
+        <Route path="/video/examine" component={VideoExaminePage} />
+        <Route path="/music/manage" component={MusicManagePage} />
+        <Route path="/music/examine" component={MusicExaminePage} />
+        <Route><Redirect to="/encode" /></Route>
       </Switch>
     </AdminLayout>
   );
