@@ -1,3 +1,15 @@
+.hidden {
+  display: none;
+}
+
+.border-top {
+  border-top: 1px solid #dddddd;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #dddddd;
+}
+
 .article-list-page {
   display: flex;
   flex-direction: column;

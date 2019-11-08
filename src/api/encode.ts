@@ -30,9 +30,9 @@ export async function encodeList(): Promise<Encode[]> {
   return (await axios(config)).data;
 }
 
-export async function encodeFile(inpath: string, options: string, outpath: string) {
+export async function encodeAdd(inpath: string, options: string, outpath: string) {
   const config: AxiosRequestConfig = {
-    url: `${FS_SERVER}/encode`,
+    url: `${API_SERVER}/encodes`,
     method: 'post',
     data: { inpath, options, outpath },
   };
@@ -40,11 +40,11 @@ export async function encodeFile(inpath: string, options: string, outpath: strin
   await axios(config);
 }
 
-export async function encodePresets() {
+export async function encodePresets(): Promise<object> {
   const config: AxiosRequestConfig = {
-    url: `${FS_SERVER}/encode/presets`,
+    url: `${API_SERVER}/encodes/presets`,
     method: 'get',
   };
 
-  await axios(config);
+  return (await await axios(config)).data;
 }
