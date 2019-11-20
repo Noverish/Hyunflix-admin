@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { SearchResult } from 'api';
 
@@ -39,10 +39,6 @@ export const useSearch = <T>(pageSize: number, search: (page: number, pageSize: 
     items[index] = item;
     setState({ ...state, items });
   };
-
-  useEffect(() => {
-    setPage(1);
-  }, []);
 
   return [state, setPage, updateItem];
 };
