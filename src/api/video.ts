@@ -1,33 +1,37 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { stringify } from 'querystring';
 
-import { VideoArticle } from 'models';
 import { API_SERVER } from 'config';
+import { Video } from 'models';
 
-export interface VideoArticleListResult {
-  total: number;
-  results: VideoArticle[];
-}
-
-export async function videoArticleList(query: string, page: number, pageSize: number): Promise<VideoArticleListResult> {
-  const querystring = stringify({ q: query, p: page, ps: pageSize });
+export async function videoTagList(): Promise<string[]> {
   const config: AxiosRequestConfig = {
-    url: `${API_SERVER}/articles/videos?${querystring}`,
+    url: `${API_SERVER}/videos/tags`,
     method: 'get',
   };
 
   return (await axios(config)).data;
 }
 
-export interface VideoArticleUpdateParams {
-  videoArticleId: number;
-  params: Partial<VideoArticle>;
+export interface VideoListResult {
+  total: number;
+  results: Video[];
 }
 
-export async function videoArticleUpdate(params: VideoArticleUpdateParams): Promise<void> {
+export async function videoList(query: string, page: number, pageSize: number): Promise<VideoListResult> {
   const config: AxiosRequestConfig = {
-    url: `${API_SERVER}/articles/videos/${params.videoArticleId}`,
+    url: `${API_SERVER}/videos`,
+    method: 'get',
+    params: { q: query, p: page, ps: pageSize },
+  };
+
+  return (await axios(config)).data;
+}
+
+export async function videoUpdate(videoId: number, data: Partial<Video>): Promise<void> {
+  const config: AxiosRequestConfig = {
+    url: `${API_SERVER}/videos/${videoId}`,
     method: 'put',
+    data,
   };
 
   await axios(config);
@@ -35,7 +39,7 @@ export async function videoArticleUpdate(params: VideoArticleUpdateParams): Prom
 
 export async function videoExamine(): Promise<void> {
   const config: AxiosRequestConfig = {
-    url: `${API_SERVER}/videos/examine`,
+    url: `${API_SERVER}/examine`,
     method: 'post',
   };
 

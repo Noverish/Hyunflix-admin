@@ -7,7 +7,6 @@ import IndexPage from 'pages';
 import { RootState } from 'states';
 
 import 'antd/dist/antd.css';
-import './App.css';
 
 interface Props {
   token: string;
@@ -16,9 +15,7 @@ interface Props {
 const App: React.FC<Props> = (props) => {
   const inner = (props.token)
     ? (
-      <Switch>
-        <Route component={IndexPage} />
-      </Switch>
+      <Route component={IndexPage} />
     ) : (
       <Switch>
         <Route path="/login" component={LoginPage} />

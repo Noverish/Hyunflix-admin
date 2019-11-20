@@ -6,6 +6,11 @@ export * from './fs';
 export * from './video';
 export * from './music';
 
+export interface SearchResult<T> {
+  total: number;
+  results: T[];
+}
+
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
 

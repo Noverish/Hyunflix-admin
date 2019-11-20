@@ -23,11 +23,8 @@ class AdminLayout extends React.Component<Props, State> {
     const path: string = this.props.location.pathname;
 
     const items = [
-      { name: '비디오 인코딩', path: '/encode',         icon: 'youtube' },
-      { name: '비디오 관리',   path: '/video/manage',   icon: 'play-circle' },
-      { name: '비디오 검사',   path: '/video/examine',  icon: 'play-circle' },
-      { name: '음악 관리',     path: '/music/manage',   icon: 'customer-service' },
-      { name: '음악 검사',     path: '/music/examine',  icon: 'customer-service' },
+      { name: '비디오 인코딩', path: '/encode',   icon: 'youtube' },
+      { name: '파일 탐색기',   path: '/explorer', icon: 'folder'  },
     ];
 
     const selectedKeys: string[] = items.filter(i => path.startsWith(i.path)).map(i => i.path);
@@ -42,11 +39,11 @@ class AdminLayout extends React.Component<Props, State> {
     ));
 
     const links = [
-      { name: 'Home',               path: `http://${window.location.hostname}`, icon: 'home' },
-      { name: 'Database',           path: 'http://home.hyunsub.kim:5000',       icon: 'database' },
-      { name: 'Torrent',            path: 'http://home.hyunsub.kim:8082',       icon: 'download' },
-      { name: 'File Browser',       path: 'http://home.hyunsub.kim:8090',       icon: 'folder' },
-      { name: 'Visual Studio Code', path: 'http://home.hyunsub.kim:8443',       icon: 'build' },
+      { name: 'Home',               path: 'http://home.hyunsub.kim',      icon: 'home' },
+      { name: 'Database',           path: 'http://home.hyunsub.kim:5000', icon: 'database' },
+      { name: 'Torrent',            path: 'http://home.hyunsub.kim:8082', icon: 'download' },
+      { name: 'File Browser',       path: 'http://home.hyunsub.kim:8090', icon: 'folder' },
+      { name: 'Visual Studio Code', path: 'http://home.hyunsub.kim:8443', icon: 'build' },
     ];
 
     const linkComps = links.map(i => (

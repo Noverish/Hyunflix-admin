@@ -1,48 +1,20 @@
 import React from 'react';
 import { Checkbox, Icon } from 'antd';
-import * as classnames from 'classnames';
-import ClickNHold from 'react-click-n-hold';
 
+import { InjectedProps } from 'components/hoc/with-list';
 import { File } from 'models';
-import { LONG_CLICK_TIME } from 'config';
 
-interface Props {
-  file: File;
-  onClick?(file: File): void;
-  onLongClick?(file: File): void;
-  selected?: boolean;
-}
-
-const FileItem: React.FunctionComponent<Props> = (props) => {
-  const { file, onClick, onLongClick, selected } = props;
-  const iconType = file.isdir ? 'folder' : 'file';
-  const className = classnames('article-item', { selected });
-
-  const onEnd = (_, enough) => {
-    (onClick && !enough) && onClick(file);
-  };
-
-  const onClickNHold = () => {
-    onLongClick && onLongClick(file);
-  };
+const FileItem: React.FunctionComponent<InjectedProps<File>> = (props) => {
+  const { item, checked } = props;
+  const iconType = item.isdir ? 'folder' : 'file';
 
   return (
-    <ClickNHold
-      time={LONG_CLICK_TIME}
-      onClickNHold={onClickNHold}
-      onEnd={onEnd}
-    >
-      <div className={className}>
-        <div className="first section">
-          {selected !== undefined && <Checkbox className="check-box" checked={selected} />}
-          <Icon type={iconType} />
-          <span>{file.name}</span>
-        </div>
-        <div className="second section">
-          <div className="article-date">{file.size}</div>
-        </div>
-      </div>
-    </ClickNHold>
+    <React.Fragment>
+      {checked !== undefined && <Checkbox checked={checked} style={{ marginRight: '8px' }} />}
+      <Icon type={iconType} style={{ marginRight: '8px' }}/>
+      <span style={{ marginRight: 'auto' }}>{item.name}</span>
+      <div>{item.size}</div>
+    </React.Fragment>
   );
 };
 

@@ -2,29 +2,22 @@ import React from 'react';
 import { Tag, Progress } from 'antd';
 import { basename } from 'path';
 
+import { InjectedProps } from 'components/hoc/with-list';
 import { Encode } from 'models';
-import './encode-item.css';
 
-interface Props {
-  encode: Encode;
-}
-
-const encodeItem: React.FunctionComponent<Props> = ({ encode }) => {
-  const progress = parseFloat(encode.progress.toFixed(2));
+const encodeItem: React.FunctionComponent<InjectedProps<Encode>> = (props) => {
+  const { item } = props;
+  const progress = parseFloat(item.progress.toFixed(2));
   const progressStatus = (progress < 0) ? 'exception' : undefined;
 
   return (
-    <div className="article-item encode-item">
-      <div className="first section">
-        <div className="article-id">{encode.id}</div>
-        <div className="article-title">{basename(encode.inpath)}</div>
-      </div>
-      <div className="second section">
-        {progress2tag(encode.progress)}
-        <Progress className="progress" percent={progress} size="small" status={progressStatus} />
-        <div className="article-date">{encode.date}</div>
-      </div>
-    </div>
+    <React.Fragment>
+      <span style={{ marginRight: '8px' }}>{item.id}</span>
+      <span style={{ marginRight: 'auto' }}>{basename(item.inpath)}</span>
+      {progress2tag(item.progress)}
+      <Progress percent={progress} size="small" status={progressStatus} style={{ width: '100px', marginRight: '16px' }}/>
+      <span>{item.date}</span>
+    </React.Fragment>
   );
 };
 

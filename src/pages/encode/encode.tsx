@@ -1,112 +1,76 @@
-import React from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
-import { Button, Pagination, List, message, PageHeader } from 'antd';
-import * as socketio from 'socket.io-client';
+import React, { FC } from 'react';
+import { PageHeader } from 'antd';
 
 import { EncodeItem } from 'components';
+import withList from 'components/hoc/with-list';
+import withPagination from 'components/hoc/with-pagination';
 import { Encode } from 'models';
-import { ffmpegPause, ffmpegResume, encodeList } from 'api';
-import { SOCKET_SERVER, FFMPEG_SOCKET_PATH, PAGE_SIZE } from 'config';
+import { encodeList } from 'api';
+import { useSearch } from 'hooks';
+import { PAGE_SIZE } from 'config';
 
-interface Props extends RouteComponentProps {
+const isEqual = (v1: Encode, v2: Encode) => v1.id === v2.id;
+const EncodeList = withList<Encode>({ isEqual })(EncodeItem);
+const EncodeListWithPagination = withPagination(EncodeList);
 
-}
+// let es: EventSource | null = null;
 
-interface State {
-  encodes: Encode[];
-  page: number;
-}
+const EncodePage: FC = () => {
+  const [searchState, setPage] = useSearch<Encode>(PAGE_SIZE, encodeList, isEqual);
+  // const [ exist, setExist ] = useState(false);
 
-class EncodePage extends React.Component<Props, State> {
-  socket: SocketIOClient.Socket | null = null;
+  // useEffect(() => {
+  //   es = new EventSource('http://home.hyunsub.kim:8600/ffmpeg');
+  //   es.onmessage = (event) => {
+  //     const status: EncodeStatus = JSON.parse(event.data);
+  //     const item = searchState.items.find(v => v.id === status.encodeId);
+  //     if (item) {
+  //       item.progress = status.progress;
+  //       updateItem(item);
+  //     }
+  //   }
 
-  state: State = {
-    encodes: [],
-    page: 1,
-  };
+  //   ffmpegExist()
+  //     .then(setExist);
 
-  componentDidMount() {
-    encodeList()
-      .then((encodes: Encode[]) => this.setState({ encodes }))
-      .catch(() => {});
+  //   return () => {
+  //     es && es.close();
+  //   }
+  // }, []);
 
-    this.socket = socketio.connect(SOCKET_SERVER, { path: FFMPEG_SOCKET_PATH });
-    this.socket.on('message', (data: Buffer) => {
-      const payload = JSON.parse(data.toString());
-      const encodes = this.state.encodes;
+  // let headerExtra = <div />
+  // switch (state) {
+  //   case -1: {
+  //     headerExtra = <Button icon="right-circle">Create Process</Button>
+  //     break;
+  //   }
+  //   case 0: {
+  //     headerExtra = <Button icon="caret-right">Resume Process</Button>
+  //     break;
+  //   }
+  //   case 1: {
+  //     headerExtra = <Button icon="pause">Pause Process</Button>
+  //     break;
+  //   }
+  // }
 
-      const index = encodes.findIndex((item: Encode) => {
-        return item.id === payload['encodeId'];
-      });
+  // const isExist = (exist)
+  //   ? <Tag color="green">프로세스 있음</Tag>
+  //   : <Tag color="red">프로세스 없음</Tag>
 
-      if (index >= 0) {
-        encodes[index].progress = payload['progress'];
-        this.setState({ encodes: [...encodes] });
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    if (this.socket) {
-      this.socket.disconnect();
-    }
-  }
-
-  render() {
-    const page: number = this.state.page;
-    const encodes: Encode[] = this.state.encodes;
-    const subItems: Encode[] = encodes.slice((page - 1) * PAGE_SIZE, (page) * PAGE_SIZE);
-
-    return (
-      <div className="article-list-page">
-        <div className="page-header">
-          <PageHeader backIcon={false} title="비디오 인코딩" />
-          <Button.Group className="button-group">
-            <Button icon="caret-right" onClick={this.onResumeClicked}>Resume</Button>
-            <Button icon="pause" onClick={this.onPauseClicked}>Pause</Button>
-          </Button.Group>
-          <Link to="/encode/add" style={{ marginLeft: '12px' }}>
-            <Button type="primary">Add</Button>
-          </Link>
-        </div>
-        <div className="page-content">
-          <List
-            dataSource={subItems}
-            renderItem={(item: Encode) => (
-              <EncodeItem encode={item} key={item.id} />
-            )}
-          />
-        </div>
-        <div className="page-footer">
-          <div className="left wrapper"/>
-          <div className="center wrapper">
-            <Pagination current={page} total={encodes.length} pageSize={PAGE_SIZE} onChange={this.onChange} />
-          </div>
-          <div className="right wrapper"/>
-        </div>
-      </div>
-    );
-  }
-
-  onChange = (page: number) => {
-    this.setState({ page });
-  }
-
-  onPauseClicked = () => {
-    ffmpegPause()
-      .then(() => {
-        message.success('success');
-      })
-      .catch(() => {});
-  }
-
-  onResumeClicked = () => {
-    ffmpegResume()
-      .then(() => {
-        message.success('success');
-      })
-      .catch(() => {});
-  }
-}
+  return (
+    <React.Fragment>
+      <PageHeader title="인코딩 리스트" />
+      <EncodeListWithPagination
+        items={searchState.items}
+        page={searchState.page}
+        pageSize={PAGE_SIZE}
+        total={searchState.total}
+        loading={searchState.loading}
+        onPageChange={setPage}
+      />
+    </React.Fragment>
+  );
+};
 
 export default EncodePage;

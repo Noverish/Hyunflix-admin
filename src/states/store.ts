@@ -6,7 +6,7 @@ import saga from './saga';
 import { RootState } from '.';
 
 const token = localStorage.getItem('token');
-const preloadedState: RootState | undefined = token ? { auth: { token } } : undefined;
+const preloadedState: Partial<RootState> | undefined = token ? { auth: { token } } : undefined;
 
 const sagaMiddleware = createSagaMiddleware();
 
