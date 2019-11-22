@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useCallback } from 'react';
 import { PageHeader } from 'antd';
 
 import { EncodeItem } from 'components';
 import withList from 'components/hoc/with-list';
 import withPagination from 'components/hoc/with-pagination';
-import { Encode } from 'models';
+import { Encode, EncodeStatus } from 'models';
 import { encodeList } from 'api';
 import { useSearch } from 'hooks';
 import { PAGE_SIZE } from 'config';
@@ -13,30 +13,41 @@ const isEqual = (v1: Encode, v2: Encode) => v1.id === v2.id;
 const EncodeList = withList<Encode>({ isEqual })(EncodeItem);
 const EncodeListWithPagination = withPagination(EncodeList);
 
-// let es: EventSource | null = null;
+let es: EventSource | null = null;
 
 const EncodePage: FC = () => {
-  const [searchState, setPage] = useSearch<Encode>(PAGE_SIZE, encodeList, isEqual);
-  // const [ exist, setExist ] = useState(false);
+  const [searchState, setSearchState] = useSearch<Encode>(PAGE_SIZE, encodeList);
 
-  // useEffect(() => {
-  //   es = new EventSource('http://home.hyunsub.kim:8600/ffmpeg');
-  //   es.onmessage = (event) => {
-  //     const status: EncodeStatus = JSON.parse(event.data);
-  //     const item = searchState.items.find(v => v.id === status.encodeId);
-  //     if (item) {
-  //       item.progress = status.progress;
-  //       updateItem(item);
-  //     }
-  //   }
+  const setPage = useCallback((page) => {
+    setSearchState(state => ({ ...state, page }));
+  }, [setSearchState]);
 
-  //   ffmpegExist()
-  //     .then(setExist);
+  const updateItem = useCallback((status) => {
+    setSearchState((state) => {
+      const { items } = state;
+      const index = items.findIndex(v => v.id === status.encodeId);
+      if (index >= 0) {
+        items[index].progress = status.progress;
+        return { ...state, items: [...items] };
+      }
+      return state;
+    });
+  }, [setSearchState]);
 
-  //   return () => {
-  //     es && es.close();
-  //   }
-  // }, []);
+  useEffect(() => {
+    es = new EventSource('http://home.hyunsub.kim:8600/ffmpeg');
+    es.onmessage = (event) => {
+      const status: EncodeStatus = JSON.parse(event.data);
+      updateItem(status);
+    };
+
+    // ffmpegExist()
+    //   .then(setExist);
+
+    return () => {
+      es && es.close();
+    };
+  }, [setSearchState, updateItem]);
 
   // let headerExtra = <div />
   // switch (state) {

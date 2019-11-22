@@ -52,9 +52,18 @@ const ExplorerPage: FC<RouteComponentProps> = (props) => {
     }
   };
 
+  const addVideo = () => {
+    (async function () {
+      for (const f of checklist) {
+        await Api.videoAdd(f.path);
+      }
+    })();
+  };
+
   const headerExtra = checkable ? (
     <React.Fragment>
       <Button onClick={setEncodeModalVisible.bind(null, true)} disabled={checklist.length === 0}>Encode</Button>
+      <Button onClick={addVideo} disabled={checklist.length === 0}>Add Video</Button>
       <Button type="danger" onClick={setCheckable.bind(null, false)}>Cancel</Button>
     </React.Fragment>
   ) : (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
 import { SearchResult } from 'api';
 
@@ -9,9 +9,9 @@ export interface SearchState<T> {
   loading: boolean;
 }
 
-export type Result<T> = [SearchState<T>, (page: number) => void, (item: T) => void];
+export type Result<T> = [SearchState<T>, Dispatch<SetStateAction<SearchState<T>>>];
 
-export const useSearch = <T>(pageSize: number, search: (page: number, pageSize: number) => Promise<SearchResult<T>>, inEqual: (v1: T, v2: T) => boolean): Result<T> => {
+export const useSearch = <T>(pageSize: number, search: (page: number, pageSize: number) => Promise<SearchResult<T>>): Result<T> => {
   const [state, setState] = useState({
     total: 0,
     items: [],
@@ -19,8 +19,10 @@ export const useSearch = <T>(pageSize: number, search: (page: number, pageSize: 
     loading: false,
   } as SearchState<T>);
 
-  const setPage = (page: number) => {
-    setState({ ...state, loading: true });
+  const { page } = state;
+
+  useEffect(() => {
+    setState(state => ({ ...state, loading: true }));
 
     search(page, pageSize)
       .then((result: SearchResult<T>) => {
@@ -31,14 +33,7 @@ export const useSearch = <T>(pageSize: number, search: (page: number, pageSize: 
           loading: false,
         });
       });
-  };
+  }, [pageSize, search, page]);
 
-  const updateItem = (item: T) => {
-    const items = state.items;
-    const index = items.findIndex(v => inEqual(v, item));
-    items[index] = item;
-    setState({ ...state, items });
-  };
-
-  return [state, setPage, updateItem];
+  return [state, setState];
 };

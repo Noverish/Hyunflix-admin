@@ -27,6 +27,16 @@ export async function videoList(query: string, page: number, pageSize: number): 
   return (await axios(config)).data;
 }
 
+export async function videoAdd(path: string): Promise<void> {
+  const config: AxiosRequestConfig = {
+    url: `${API_SERVER}/videos`,
+    method: 'post',
+    data: { path },
+  };
+
+  await axios(config);
+}
+
 export async function videoUpdate(videoId: number, data: Partial<Video>): Promise<void> {
   const config: AxiosRequestConfig = {
     url: `${API_SERVER}/videos/${videoId}`,
