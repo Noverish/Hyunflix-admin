@@ -7,6 +7,8 @@ export interface Encode {
   date: string;
 }
 
+export const isEqualEncode = (v1: Encode, v2: Encode) => v1.id === v2.id;
+
 export interface File {
   path: string;
   name: string;
@@ -14,6 +16,8 @@ export interface File {
   size: string;
   url: string;
 }
+
+export const isEqualFile = (v1: File, v2: File) => v1.path === v2.path;
 
 export interface Music {
   youtube: string | null;

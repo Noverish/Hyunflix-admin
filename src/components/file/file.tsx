@@ -1,10 +1,10 @@
 import React from 'react';
 import { Checkbox, Icon } from 'antd';
 
-import { InjectedProps } from 'components/hoc/with-list';
-import { File } from 'models';
+import withList, { InjectedProps } from 'components/hoc/with-list';
+import { File, isEqualFile } from 'models';
 
-const FileItem: React.FunctionComponent<InjectedProps<File>> = (props) => {
+export const FileItem: React.FunctionComponent<InjectedProps<File>> = (props) => {
   const { item, checked } = props;
   const iconType = item.isdir ? 'folder' : 'file';
 
@@ -18,4 +18,4 @@ const FileItem: React.FunctionComponent<InjectedProps<File>> = (props) => {
   );
 };
 
-export default FileItem;
+export const FileList = withList<File>({ isEqual: isEqualFile })(FileItem);

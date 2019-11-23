@@ -1,7 +1,5 @@
-export { default as EncodeItem } from './encode/encode-item';
-export { default as EncodeModal } from './encode/encode-modal';
-
-export { default as FileItem } from './file/file-item';
+export { EncodeItem, EncodeList, EncodeListWithPagination } from './encode/encode';
+export { FileItem, FileList } from './file/file';
 
 export { default as withList } from './hoc/with-list';
 export { default as withPagination } from './hoc/with-pagination';

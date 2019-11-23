@@ -1,34 +1,44 @@
-import React, { FC, useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { PageHeader, Button, Breadcrumb, Icon } from 'antd';
+import React, { FC, useState, useEffect, useMemo, useCallback } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { PageHeader, Button, Breadcrumb } from 'antd';
+import { connect } from 'react-redux';
 
 import * as Api from 'api';
-import { File } from 'models';
-import { FileItem, EncodeModal } from 'components';
-import withList from 'components/hoc/with-list';
-
-const isEqual = (v1: File, v2: File) => v1.path === v2.path;
-const FileList = withList<File>({ isEqual })(FileItem);
+import { RootState } from 'states';
+import { setChecklistAction } from 'states/file';
+import { File, isEqualFile } from 'models';
+import { FileList } from 'components';
 
 const renderBreadcrumb = (path: string) => {
-  const items = path.split('/').map(p => (
-    <Breadcrumb.Item key={p}>{p}</Breadcrumb.Item>
-  ));
+  const comps = path.match(/[^/]+/g) || [];
+
+  const items = comps.map((p, i) => {
+    const path = comps.slice(0, i + 1).join('/');
+    return (
+      <Breadcrumb.Item key={p}>
+        <Link to={`/explorer/${path}`}>{p}</Link>
+      </Breadcrumb.Item>
+    );
+  });
 
   return (
     <Breadcrumb>
-      <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+      <Breadcrumb.Item><Link to="/explorer">Home</Link></Breadcrumb.Item>
       {items}
     </Breadcrumb>
   );
 };
 
-const ExplorerPage: FC<RouteComponentProps> = (props) => {
+interface Props extends RouteComponentProps {
+  setChecklist: typeof setChecklistAction;
+  checklist: File[];
+}
+
+const ExplorerPage: FC<Props> = (props) => {
   const [files, setFiles] = useState([] as File[]);
   const [loading, setLoading] = useState(false);
   const [checkable, setCheckable] = useState(false);
-  const [checklist, setChecklist] = useState([] as File[]);
-  const [encodeModalVisible, setEncodeModalVisible] = useState(false);
+  const { checklist, setChecklist } = props;
 
   const path = '/' + (props.match.params['path'] || '');
 
@@ -39,49 +49,60 @@ const ExplorerPage: FC<RouteComponentProps> = (props) => {
       .then(() => setLoading(false));
   }, [path]);
 
-  const onItemClick = (file: File) => {
-    if (checkable) {
-      const isChecked = checklist.some(f => isEqual(f, file));
-      if (isChecked) {
-        setChecklist(checklist.filter(f => !isEqual(f, file)));
-      } else {
-        setChecklist([...checklist, file]);
-      }
-    } else {
-      props.history.push('/explorer' + file.path);
-    }
-  };
+  // functions
+  const onItemClick = useCallback((file: File) => {
+    props.history.push('/explorer' + file.path);
+  }, [props.history]);
 
-  const addVideo = () => {
-    (async function () {
-      for (const f of checklist) {
-        await Api.videoAdd(f.path);
-      }
-    })();
-  };
+  const onItemCheck = useCallback((file: File) => {
+    const isChecked = checklist.some(f => isEqualFile(f, file));
 
-  const headerExtra = checkable ? (
+    setChecklist(isChecked
+      ? checklist.filter(f => !isEqualFile(f, file))
+      : [...checklist, file],
+    );
+  }, [checklist, setChecklist]);
+
+  const goToEncodeAddPage = useCallback(() => {
+    props.history.push('/encode/add');
+  }, [props.history]);
+
+  const goToVideoAddPage = useCallback(() => {
+    props.history.push('/video/add');
+  }, [props.history]);
+
+  // components
+  const headerExtra = useMemo(() => checkable ? (
     <React.Fragment>
-      <Button onClick={setEncodeModalVisible.bind(null, true)} disabled={checklist.length === 0}>Encode</Button>
-      <Button onClick={addVideo} disabled={checklist.length === 0}>Add Video</Button>
+      <Button onClick={goToEncodeAddPage} disabled={checklist.length === 0}>Encode</Button>
+      <Button onClick={goToVideoAddPage} disabled={checklist.length === 0}>Add Video</Button>
       <Button type="danger" onClick={setCheckable.bind(null, false)}>Cancel</Button>
     </React.Fragment>
   ) : (
-    <Button type="primary" onClick={setCheckable.bind(null, true)}>Select</Button>
-  );
+    <Button onClick={setCheckable.bind(null, true)}>Select</Button>
+  ), [checkable, checklist.length, goToVideoAddPage, goToEncodeAddPage]);
+
+  const breadcrumb = useMemo(() => renderBreadcrumb(path), [path]);
 
   return (
     <React.Fragment>
-      <PageHeader title={renderBreadcrumb(path)} extra={headerExtra} />
+      <PageHeader title={breadcrumb} extra={headerExtra} />
       <FileList
         items={files}
-        onItemClick={onItemClick}
+        onItemClick={checkable ? onItemCheck : onItemClick}
         loading={loading}
         checklist={checkable ? checklist : undefined}
       />
-      <EncodeModal visible={encodeModalVisible} onDismiss={setEncodeModalVisible.bind(null, false)} files={checklist}/>
     </React.Fragment>
   );
 };
 
-export default ExplorerPage;
+const mapStateToProps = (state: RootState) => ({
+  checklist: state.file.checklist,
+});
+
+const mapDispatchToProps = {
+  setChecklist: setChecklistAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExplorerPage);

@@ -1,17 +1,11 @@
 import React, { FC, useEffect, useCallback } from 'react';
 import { PageHeader } from 'antd';
 
-import { EncodeItem } from 'components';
-import withList from 'components/hoc/with-list';
-import withPagination from 'components/hoc/with-pagination';
+import { EncodeListWithPagination } from 'components';
 import { Encode, EncodeStatus } from 'models';
 import { encodeList } from 'api';
 import { useSearch } from 'hooks';
 import { PAGE_SIZE } from 'config';
-
-const isEqual = (v1: Encode, v2: Encode) => v1.id === v2.id;
-const EncodeList = withList<Encode>({ isEqual })(EncodeItem);
-const EncodeListWithPagination = withPagination(EncodeList);
 
 let es: EventSource | null = null;
 
