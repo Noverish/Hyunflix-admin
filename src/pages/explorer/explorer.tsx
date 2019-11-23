@@ -71,11 +71,17 @@ const ExplorerPage: FC<Props> = (props) => {
     props.history.push('/video/add');
   }, [props.history]);
 
+  const clearChecklist = useCallback(() => {
+    setChecklist([]);
+  }, []);
+
   // components
   const headerExtra = useMemo(() => checkable ? (
     <React.Fragment>
+      <span>{checklist.length}개 선택됨</span>
       <Button onClick={goToEncodeAddPage} disabled={checklist.length === 0}>Encode</Button>
       <Button onClick={goToVideoAddPage} disabled={checklist.length === 0}>Add Video</Button>
+      <Button onClick={clearChecklist} disabled={checklist.length === 0}>Clear Checklist</Button>
       <Button type="danger" onClick={setCheckable.bind(null, false)}>Cancel</Button>
     </React.Fragment>
   ) : (
