@@ -59,6 +59,30 @@ const VideoEditTitlePage: React.FC<Props> = (props) => {
     }));
   }, [checked, input1, input2]);
 
+  const putToFront = useCallback(() => {
+    setModifyList(list => list.map((v) => {
+      const tmp = { ...v };
+      tmp.path = input1 + v.path;
+      return tmp;
+    }));
+  }, [input1]);
+
+  const putToEnd = useCallback(() => {
+    setModifyList(list => list.map((v) => {
+      const tmp = { ...v };
+      tmp.path = v.path + input1;
+      return tmp;
+    }));
+  }, [input1]);
+
+  const setAsIndexNumber = useCallback(() => {
+    setModifyList(list => list.map((v, i) => {
+      const tmp = { ...v };
+      tmp.path = i.toString().padStart(parseInt(input1), '0');
+      return tmp;
+    }));
+  }, [input1]);
+
   const execute = useCallback(() => {
     (async () => {
       for (let i = 0; i < modifyList.length; i += 1) {
@@ -94,12 +118,15 @@ const VideoEditTitlePage: React.FC<Props> = (props) => {
       <Button.Group>
         <Button onClick={backToOrigin}>Back to origin</Button>
         <Button onClick={stringReplace}>String Replace</Button>
+        <Button onClick={putToFront}>Put to Front</Button>
+        <Button onClick={putToEnd}>Put to End</Button>
+        <Button onClick={setAsIndexNumber}>Set as index number</Button>
+        <Button type="primary" onClick={execute}>Execute</Button>
       </Button.Group>
       <Input onChange={onInputChange1} value={input1} placeholder="input 1" />
       <Input onChange={onInputChange2} value={input2} placeholder="input 2" />
       <Checkbox onChange={onCheckChange} checked={checked}>is Regex</Checkbox>
       <Table dataSource={dataSource} columns={columns} size="small" rowKey="index"/>
-      <Button onClick={execute}>Execute</Button>
       {messages}
     </div>
   );
