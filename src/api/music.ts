@@ -4,15 +4,6 @@ import { stringify } from 'querystring';
 import { Music } from 'models';
 import { API_SERVER } from 'config';
 
-export async function musicTagList(): Promise<string[]> {
-  const config: AxiosRequestConfig = {
-    url: `${API_SERVER}/musics/tags`,
-    method: 'get',
-  };
-
-  return (await axios(config)).data;
-}
-
 export interface MusicListResult {
   total: number;
   results: Music[];

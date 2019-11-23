@@ -1,47 +1,16 @@
-import { createAsyncAction, createReducer, getType, ActionType } from 'typesafe-actions';
-import { put, call, takeEvery } from 'redux-saga/effects';
+import { createAction, createReducer, ActionType } from 'typesafe-actions';
 import { combineReducers } from 'redux';
-import * as Api from 'api';
-import { COLORS } from 'config';
+import { Music } from 'models';
 
 // Actions
-export const musicTagAction = createAsyncAction(
-  'MUSIC_TAG_REQUEST',
-  'MUSIC_TAG_SUCCESS',
-  'MUSIC_TAG_FAILURE',
-)<undefined, string[], string>();
+export const setMusicChecklistAction = createAction('SET_MUSIC_CHECKLIST')<Music[]>();
 
-type MusicAction = ActionType<typeof musicTagAction>;
+type Action = ActionType<typeof setMusicChecklistAction>;
 
 // Reducers
-const tags = createReducer<Map<string, string>, MusicAction>(new Map())
-  .handleAction(musicTagAction.success, (_, action: ReturnType<typeof musicTagAction.success>) => {
-    const map = new Map<string, string>();
-    const tags: string[] = action.payload;
-
-    tags.forEach((t, i) => map.set(t, COLORS[i % COLORS.length]));
-
-    return map;
-  });
+const checklist = createReducer<Music[], Action>([])
+  .handleAction(setMusicChecklistAction, (_, action) => action.payload);
 
 export const reducer = combineReducers({
-  tags,
+  checklist,
 });
-
-// Sagas
-function* fetchMusicTag(action: ReturnType<typeof musicTagAction.request>) {
-  try {
-    const result: string[] = yield call([Api, 'musicTagList']);
-    yield put(musicTagAction.success(result));
-  } catch (errMsg) {
-    yield put(musicTagAction.failure(errMsg));
-  }
-}
-
-function* watchMusicTag() {
-  yield takeEvery(getType(musicTagAction.request), fetchMusicTag);
-}
-
-export const saga = [
-  watchMusicTag(),
-];

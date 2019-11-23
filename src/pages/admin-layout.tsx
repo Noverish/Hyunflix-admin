@@ -23,8 +23,9 @@ class AdminLayout extends React.Component<Props, State> {
     const path: string = this.props.location.pathname;
 
     const items = [
-      { name: '비디오 인코딩', path: '/encode',   icon: 'youtube' },
-      { name: '파일 탐색기',   path: '/explorer', icon: 'folder'  },
+      { name: 'Encoding List', path: '/encode',   icon: 'youtube' },
+      { name: 'File Explorer', path: '/explorer', icon: 'folder'  },
+      { name: 'Video List',    path: '/video',    icon: 'play-circle'  },
     ];
 
     const selectedKeys: string[] = items.filter(i => path.startsWith(i.path)).map(i => i.path);

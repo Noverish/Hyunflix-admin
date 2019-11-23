@@ -11,8 +11,13 @@ export interface SearchResult<T> {
   results: T[];
 }
 
+// TODO dependency 해결
+function getToken() {
+  return require('states').store.getState().auth.token;
+}
+
 axios.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = getToken();
 
   if (token) {
     config.headers = { Authorization: `Bearer ${token}` };

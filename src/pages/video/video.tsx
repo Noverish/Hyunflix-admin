@@ -1,0 +1,77 @@
+import React, { useState, useCallback, useMemo } from 'react';
+import { PageHeader, Button } from 'antd';
+import { RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { setVideoChecklistAction } from 'states/video';
+import { RootState } from 'states';
+import { VideoListWithPagination } from 'components';
+import { Video, isEqualVideo } from 'models';
+import { videoList } from 'api';
+import { useSearch } from 'hooks';
+import { PAGE_SIZE } from 'config';
+
+interface Props extends RouteComponentProps {
+  setChecklist: typeof setVideoChecklistAction;
+  checklist: Video[];
+}
+
+const VideoPage: React.FC<Props> = (props) => {
+  const { checklist, setChecklist } = props;
+  const [searchState, setSearchState] = useSearch<Video>(PAGE_SIZE, videoList);
+  const [checkable, setCheckable] = useState(false);
+
+  // functions
+  const onItemCheck = useCallback((video: Video) => {
+    const isChecked = checklist.some(v => isEqualVideo(v, video));
+
+    setChecklist(isChecked
+      ? checklist.filter(v => !isEqualVideo(v, video))
+      : [...checklist, video],
+    );
+  }, [checklist, setChecklist]);
+
+  const setPage = useCallback((page) => {
+    setSearchState(state => ({ ...state, page }));
+  }, [setSearchState]);
+
+  const goToVideoEditPage = useCallback(() => {
+    props.history.push('/video/edit-title');
+  }, [props.history]);
+
+  // components
+  const headerExtra = useMemo(() => checkable ? (
+    <React.Fragment>
+      <Button onClick={goToVideoEditPage} disabled={checklist.length === 0}>Edit</Button>
+      <Button type="danger" onClick={setCheckable.bind(null, false)}>Cancel</Button>
+    </React.Fragment>
+  ) : (
+    <Button onClick={setCheckable.bind(null, true)}>Select</Button>
+  ), [checkable, checklist.length, goToVideoEditPage]);
+
+  return (
+    <React.Fragment>
+      <PageHeader title="Video List" extra={headerExtra} />
+      <VideoListWithPagination
+        items={searchState.items}
+        page={searchState.page}
+        pageSize={PAGE_SIZE}
+        total={searchState.total}
+        loading={searchState.loading}
+        onPageChange={setPage}
+        onItemClick={checkable ? onItemCheck : undefined}
+        checklist={checkable ? checklist : undefined}
+      />
+    </React.Fragment>
+  );
+};
+
+const mapStateToProps = (state: RootState) => ({
+  checklist: state.video.checklist,
+});
+
+const mapDispatchToProps = {
+  setChecklist: setVideoChecklistAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VideoPage);

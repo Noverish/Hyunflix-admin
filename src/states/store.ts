@@ -5,14 +5,14 @@ import reducer from './reducer';
 import saga from './saga';
 import { RootState } from '.';
 
-const token = localStorage.getItem('token');
-const preloadedState: Partial<RootState> | undefined = token ? { auth: { token } } : undefined;
+const tmp = localStorage.getItem('redux');
+const persistedState: RootState | {} = tmp ? JSON.parse(tmp) : {};
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   reducer,
-  preloadedState,
+  persistedState,
   applyMiddleware(sagaMiddleware),
 );
 
@@ -21,5 +21,5 @@ sagaMiddleware.run(saga);
 export default store;
 
 store.subscribe(() => {
-  localStorage.setItem('token', store.getState().auth.token);
+  localStorage.setItem('redux', JSON.stringify(store.getState()));
 });

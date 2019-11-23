@@ -49,6 +49,8 @@ export interface Video {
   resolution: string;
 }
 
+export const isEqualVideo = (v1: Video, v2: Video) => v1.id === v2.id;
+
 export interface VideoSeries {
   id: number;
   videos: Video[];

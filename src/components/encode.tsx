@@ -6,7 +6,7 @@ import withList, { InjectedProps } from 'components/hoc/with-list';
 import withPagination from 'components/hoc/with-pagination';
 import { Encode, isEqualEncode } from 'models';
 
-export const EncodeItem: React.FunctionComponent<InjectedProps<Encode>> = (props) => {
+export const EncodeItem: React.FC<InjectedProps<Encode>> = (props) => {
   const { item } = props;
   const progress = parseFloat(item.progress.toFixed(2));
   const progressStatus = (progress < 0) ? 'exception' : undefined;

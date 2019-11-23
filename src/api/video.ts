@@ -3,25 +3,16 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { API_SERVER } from 'config';
 import { Video } from 'models';
 
-export async function videoTagList(): Promise<string[]> {
-  const config: AxiosRequestConfig = {
-    url: `${API_SERVER}/videos/tags`,
-    method: 'get',
-  };
-
-  return (await axios(config)).data;
-}
-
 export interface VideoListResult {
   total: number;
   results: Video[];
 }
 
-export async function videoList(query: string, page: number, pageSize: number): Promise<VideoListResult> {
+export async function videoList(page: number, pageSize: number): Promise<VideoListResult> {
   const config: AxiosRequestConfig = {
     url: `${API_SERVER}/videos`,
     method: 'get',
-    params: { q: query, p: page, ps: pageSize },
+    params: { q: '', p: page, ps: pageSize },
   };
 
   return (await axios(config)).data;
