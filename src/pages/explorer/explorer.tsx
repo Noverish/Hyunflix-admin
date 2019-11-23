@@ -73,7 +73,7 @@ const ExplorerPage: FC<Props> = (props) => {
 
   const clearChecklist = useCallback(() => {
     setChecklist([]);
-  }, []);
+  }, [setChecklist]);
 
   // components
   const headerExtra = useMemo(() => checkable ? (
@@ -86,7 +86,7 @@ const ExplorerPage: FC<Props> = (props) => {
     </React.Fragment>
   ) : (
     <Button onClick={setCheckable.bind(null, true)}>Select</Button>
-  ), [checkable, checklist.length, goToVideoAddPage, goToEncodeAddPage]);
+  ), [checkable, checklist.length, goToVideoAddPage, goToEncodeAddPage, clearChecklist]);
 
   const breadcrumb = useMemo(() => renderBreadcrumb(path), [path]);
 

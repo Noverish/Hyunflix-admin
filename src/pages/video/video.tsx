@@ -41,7 +41,7 @@ const VideoPage: React.FC<Props> = (props) => {
 
   const clearChecklist = useCallback(() => {
     setChecklist([]);
-  }, []);
+  }, [setChecklist]);
 
   // components
   const headerExtra = useMemo(() => checkable ? (
@@ -53,7 +53,7 @@ const VideoPage: React.FC<Props> = (props) => {
     </React.Fragment>
   ) : (
     <Button onClick={setCheckable.bind(null, true)}>Select</Button>
-  ), [checkable, checklist.length, goToVideoEditPage]);
+  ), [checkable, checklist.length, goToVideoEditPage, clearChecklist]);
 
   return (
     <React.Fragment>
