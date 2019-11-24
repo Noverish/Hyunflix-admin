@@ -2,11 +2,11 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { Button, Table, Input, Checkbox } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { basename, extname } from 'path';
+import { basename, extname, dirname } from 'path';
 
-import { Video } from 'models';
+import { Video, File } from 'models';
 import { RootState } from 'states';
-import { videoUpdate, rename } from 'api';
+import { videoUpdate, rename, readdir } from 'api';
 
 interface Props extends RouteComponentProps {
   originList: Video[];
@@ -94,6 +94,17 @@ const VideoEditTitlePage: React.FC<Props> = (props) => {
         setMsgs(msg => [...msg, `${origin.title} => ${title}`]);
         await rename(origin.path, path);
         setMsgs(msg => [...msg, `${origin.path} => ${path}`]);
+
+        const originFileName = basename(origin.path, extname(origin.path));
+        const files: File[] = (await readdir(dirname(path)))
+          .filter(f => f.name.includes(originFileName))
+          .filter(f => extname(f.path) !== '.mp4');
+        for (const file of files) {
+          const originPath = file.path;
+          const modifyPath = originPath.replace(originFileName, title);
+          await rename(originPath, modifyPath);
+          setMsgs(msg => [...msg, `${originPath} => ${modifyPath}`]);
+        }
       }
       setMsgs(msg => [...msg, 'done']);
     })();
