@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { Button, Table, Input, Checkbox } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { basename, extname, dirname } from 'path';
+import { basename, extname, dirname, join } from 'path';
 
 import { Video, File } from 'models';
 import { RootState } from 'states';
@@ -86,22 +86,25 @@ const VideoEditTitlePage: React.FC<Props> = (props) => {
   const execute = useCallback(() => {
     (async () => {
       for (let i = 0; i < modifyList.length; i += 1) {
-        const { id, path } = modifyList[i];
-        const title = basename(path, extname(path));
+        const modify = modifyList[i];
+        const modifyTitle = basename(modify.path, extname(modify.path));
+        const modifyParent = dirname(modify.path);
+
         const origin = originList[i];
+        const originTitle = basename(origin.path, extname(origin.path));
+        const originParent = dirname(origin.path);
 
-        await videoUpdate(id, { title, path });
-        setMsgs(msg => [...msg, `${origin.title} => ${title}`]);
-        await rename(origin.path, path);
-        setMsgs(msg => [...msg, `${origin.path} => ${path}`]);
+        await videoUpdate(modify.id, { title: modifyTitle, path: modify.path });
+        await rename(origin.path, modify.path);
+        setMsgs(msg => [...msg, `${origin.path} => ${modify.path}`]);
 
-        const originFileName = basename(origin.path, extname(origin.path));
-        const files: File[] = (await readdir(dirname(path)))
-          .filter(f => f.name.includes(originFileName))
+        const files: File[] = (await readdir(originParent))
+          .filter(f => basename(f.name, extname(f.name)) === originTitle)
           .filter(f => extname(f.path) !== '.mp4');
+
         for (const file of files) {
           const originPath = file.path;
-          const modifyPath = originPath.replace(originFileName, title);
+          const modifyPath = join(modifyParent, modifyTitle + extname(file.name));
           await rename(originPath, modifyPath);
           setMsgs(msg => [...msg, `${originPath} => ${modifyPath}`]);
         }
