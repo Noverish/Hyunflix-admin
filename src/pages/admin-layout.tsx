@@ -2,23 +2,9 @@ import React from 'react';
 import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 
-import './admin-layout.css';
+const { Content, Sider } = Layout;
 
-const { Header, Content, Footer, Sider } = Layout;
-
-interface Props extends RouteComponentProps {
-
-}
-
-interface State {
-  collapsed: boolean;
-}
-
-class AdminLayout extends React.Component<Props, State> {
-  state = {
-    collapsed: false,
-  };
-
+class AdminLayout extends React.Component<RouteComponentProps> {
   renderMenu = () => {
     const path: string = this.props.location.pathname;
 
@@ -32,7 +18,7 @@ class AdminLayout extends React.Component<Props, State> {
 
     const itemComps = items.map(i => (
       <Menu.Item key={i.path}>
-        <Link to={i.path} onClick={this.menuClicked}>
+        <Link to={i.path}>
           <Icon type={i.icon} />
           <span className="nav-text">{i.name}</span>
         </Link>
@@ -57,7 +43,7 @@ class AdminLayout extends React.Component<Props, State> {
     ));
 
     return (
-      <Menu theme="dark" mode="inline" selectedKeys={selectedKeys} onClick={this.menuClicked}>
+      <Menu theme="dark" mode="inline" selectedKeys={selectedKeys}>
         {itemComps}
         <Menu.ItemGroup key="g1" title="Links">
           {linkComps}
@@ -67,54 +53,14 @@ class AdminLayout extends React.Component<Props, State> {
   }
 
   render() {
-    const isMobile = false; // TODO isMobile
-    const { collapsed } = this.state;
-
-    const siderLayoutClass = (collapsed)
-      ? 'sider-layout collapsed'
-      : 'sider-layout expanded';
-
     return (
-      <Layout className="admin-layout" style={{ minHeight: '100vh' }}>
-        <div className={siderLayoutClass}>
-          <Sider
-            className="sider"
-            breakpoint={isMobile ? 'md' : undefined}
-            collapsed={isMobile ? collapsed : false}
-            collapsedWidth={0}
-            trigger={null}
-          >
-            <div className="logo" />
-            {this.renderMenu()}
-          </Sider>
-          <div className="sider-rest" onClick={this.toggle}/>
-        </div>
-        <Layout className="main">
-          <Header style={{ background: '#eee', padding: 0 }} >
-            <Icon
-              className="trigger"
-              type={collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
-              style={{ display: isMobile ? 'block' : 'none' }}
-            />
-          </Header>
-          <Content className="content">
-            <div className="content-inner">
-              {this.props.children}
-            </div>
-            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-          </Content>
-        </Layout>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sider>{this.renderMenu()}</Sider>
+        <Content style={{ padding: '24px', background: 'white' }}>
+          {this.props.children}
+        </Content>
       </Layout>
     );
-  }
-
-  toggle = () => {
-    this.setState({ collapsed: !this.state.collapsed });
-  }
-
-  menuClicked = (e) => {
-    this.toggle();
   }
 }
 

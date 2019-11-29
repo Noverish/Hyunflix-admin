@@ -5,7 +5,7 @@ import { API_SERVER } from 'config';
 
 export async function readdir(path: string): Promise<File[]> {
   const config: AxiosRequestConfig = {
-    url: `${API_SERVER}/fs/readdir?path=${path}`,
+    url: `${API_SERVER}/fs/readdir?path=${encodeURIComponent(path)}`,
     method: 'get',
   };
 
