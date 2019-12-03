@@ -9,9 +9,10 @@ class AdminLayout extends React.Component<RouteComponentProps> {
     const path: string = this.props.location.pathname;
 
     const items = [
-      { name: 'Encoding List', path: '/encode',   icon: 'youtube' },
-      { name: 'File Explorer', path: '/explorer', icon: 'folder'  },
-      { name: 'Video List',    path: '/video',    icon: 'play-circle'  },
+      { name: 'Encoding List',    path: '/encode',   icon: 'youtube' },
+      { name: 'File Explorer',    path: '/explorer', icon: 'folder'  },
+      { name: 'Video List',       path: '/video',    icon: 'play-circle'  },
+      { name: 'Download Youtube', path: '/youtube',  icon: 'youtube'  },
     ];
 
     const selectedKeys: string[] = items.filter(i => path.startsWith(i.path)).map(i => i.path);

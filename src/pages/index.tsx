@@ -7,6 +7,7 @@ import ExplorerPage from './explorer/explorer';
 import VideoPage from './video/video';
 import VideoAddPage from './video/video-add';
 import VideoEditTitlePage from './video/video-edit-title';
+import YoutubePage from './youtube/youtube';
 import AdminLayout from './admin-layout';
 
 const IndexRoutes: React.FunctionComponent = () => {
@@ -19,6 +20,7 @@ const IndexRoutes: React.FunctionComponent = () => {
         <Route path="/video/add" component={VideoAddPage} />
         <Route path="/video/edit-title" component={VideoEditTitlePage} />
         <Route path="/video" component={VideoPage} />
+        <Route path="/youtube" component={YoutubePage} />
         <Route><Redirect to="/encode" /></Route>
       </Switch>
     </AdminLayout>

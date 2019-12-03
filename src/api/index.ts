@@ -5,6 +5,7 @@ export * from './encode';
 export * from './fs';
 export * from './video';
 export * from './music';
+export * from './youtube';
 
 export interface SearchResult<T> {
   total: number;

@@ -2,6 +2,7 @@ import { createAsyncAction, createReducer, getType, ActionType } from 'typesafe-
 import { put, call, takeEvery } from 'redux-saga/effects';
 import { combineReducers } from 'redux';
 import * as Api from 'api';
+import { setCookie } from 'utils';
 
 // Actions
 export const loginAction = createAsyncAction(
@@ -24,6 +25,7 @@ export const reducer = combineReducers({
 function* fetchLogin(action: ReturnType<typeof loginAction.request>) {
   try {
     const result: string = yield call([Api, 'login'], action.payload);
+    setCookie('x-hyunsub-token', result, 1);
     yield put(loginAction.success(result));
   } catch (errMsg) {
     yield put(loginAction.failure(errMsg));

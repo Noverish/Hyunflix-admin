@@ -64,3 +64,16 @@ export interface EncodeStatus {
   progress: number;
   speed: number;
 }
+
+export interface YoutubeStatus {
+  stage: YoutubeStage;
+  progress: number;
+  eta: number;
+  error: string | null;
+}
+
+export enum YoutubeStage {
+  download = 0,
+  encode = 1,
+  finish = 2,
+}
