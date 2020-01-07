@@ -14,18 +14,18 @@ export const loginAction = createAsyncAction(
 type AuthAction = ActionType<typeof loginAction>;
 
 // Reducers
-const token = createReducer<string, AuthAction>('')
+const sessionId = createReducer<string, AuthAction>('')
   .handleAction(loginAction.success, (_, action) => action.payload);
 
 export const reducer = combineReducers({
-  token,
+  sessionId,
 });
 
 // Sagas
 function* fetchLogin(action: ReturnType<typeof loginAction.request>) {
   try {
     const result: string = yield call([Api, 'login'], action.payload);
-    setCookie('x-hyunsub-token', result, 1);
+    setCookie('x-hyunsub-sessionId', result, 1);
     yield put(loginAction.success(result));
   } catch (errMsg) {
     yield put(loginAction.failure(errMsg));

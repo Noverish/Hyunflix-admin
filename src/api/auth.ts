@@ -25,5 +25,5 @@ export async function login(password: string): Promise<string> {
     },
   };
 
-  return (await axios(config)).data.token;
+  return (await axios(config)).data.sessionId;
 }

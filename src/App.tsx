@@ -9,11 +9,11 @@ import { RootState } from 'states';
 import 'antd/dist/antd.css';
 
 interface Props {
-  token: string;
+  sessionId: string;
 }
 
 const App: React.FC<Props> = (props) => {
-  const inner = (props.token)
+  const inner = (props.sessionId)
     ? (
       <Route component={IndexPage} />
     ) : (
@@ -31,7 +31,7 @@ const App: React.FC<Props> = (props) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  token: state.auth.token,
+  sessionId: state.auth.sessionId,
 });
 
 export default connect(mapStateToProps)(App);

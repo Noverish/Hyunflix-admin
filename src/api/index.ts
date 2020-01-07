@@ -13,15 +13,15 @@ export interface SearchResult<T> {
 }
 
 // TODO dependency 해결
-function getToken() {
-  return require('states').store.getState().auth.token;
+function getSessionId() {
+  return require('states').store.getState().auth.sessionId;
 }
 
 axios.interceptors.request.use((config) => {
-  const token = getToken();
+  const sessionId = getSessionId();
 
-  if (token) {
-    config.headers = { Authorization: `Bearer ${token}` };
+  if (sessionId) {
+    config.headers = { 'x-hyunsub-session-id': sessionId };
   }
 
   return config;
