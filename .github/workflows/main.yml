@@ -18,20 +18,20 @@ jobs:
         key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
     - run: npm install
     - run: npm run tslint
-    - run: docker build -t hyunsub/admin .
-    - run: docker save -o hyunsub-admin.tar hyunsub/admin
+    - run: docker build -t hyunflix/admin .
+    - run: docker save -o hyunflix-admin.tar hyunflix/admin
     - uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        source: "hyunsub-admin.tar"
-        target: "/home/hyunsub/hyunsub/"
+        source: "hyunflix-admin.tar"
+        target: "/home/hyunsub/environment/hyunflix"
     - uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: cd ~/hyunsub; docker load -i hyunsub-admin.tar; docker-compose up -d --force-recreate admin; rm hyunsub-admin.tar
+        script: cd ~/environment/hyunflix; docker load -i hyunflix-admin.tar; docker-compose up -d --force-recreate admin; rm hyunflix-admin.tar

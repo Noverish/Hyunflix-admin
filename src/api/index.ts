@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { REFRESH_TOKEN_HEADER, ACCESS_TOKEN_HEADER, AUTH_SERVER, API_SERVER } from 'config';
 
 export * from './auth';
 export * from './encode';
@@ -12,25 +13,16 @@ export interface SearchResult<T> {
   results: T[];
 }
 
-// TODO dependency 해결
-function getSessionId() {
-  return require('states').store.getState().auth.sessionId;
-}
+axios.interceptors.request.use(async (config) => {
+  const { store } = await import('states');
 
-axios.interceptors.request.use((config) => {
-  const sessionId = getSessionId();
-
-  if (sessionId) {
-    config.headers = { 'x-hyunsub-session-id': sessionId };
+  if (config.url?.startsWith(AUTH_SERVER)) {
+    config.headers[REFRESH_TOKEN_HEADER] = store.getState().auth.refreshToken;
+  } else if (config.url?.startsWith(API_SERVER)) {
+    config.headers[ACCESS_TOKEN_HEADER] = store.getState().auth.accessToken;
   }
 
   return config;
-}, (error) => {
-  return Promise.reject(error);
-});
-
-axios.interceptors.response.use((response) => {
-  return response;
 }, (error) => {
   return Promise.reject(error);
 });

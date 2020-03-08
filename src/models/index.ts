@@ -1,3 +1,5 @@
+export * from './auth';
+
 export interface Encode {
   id: number;
   inpath: string;

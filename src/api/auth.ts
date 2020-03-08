@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import * as NodeRSA from 'node-rsa';
 
 import { AUTH_SERVER } from 'config';
+import { LoginResult } from 'models';
 
 export async function getRSAKey(): Promise<string> {
   const config: AxiosRequestConfig = {
@@ -12,7 +13,7 @@ export async function getRSAKey(): Promise<string> {
   return (await axios(config)).data.key;
 }
 
-export async function login(password: string): Promise<string> {
+export async function login(password: string): Promise<LoginResult> {
   const publicKeyString: string = await getRSAKey();
   const publicKey = new NodeRSA(publicKeyString, 'pkcs8-public');
 
@@ -25,5 +26,5 @@ export async function login(password: string): Promise<string> {
     },
   };
 
-  return (await axios(config)).data.sessionId;
+  return (await axios(config)).data;
 }
