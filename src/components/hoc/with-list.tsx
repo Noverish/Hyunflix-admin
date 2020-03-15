@@ -19,7 +19,6 @@ export interface Options<T> {
 
 function withList<T>(options: Options<T>) {
   return function (Component: ComponentType<InjectedProps<T>>) {
-
     const { isEqual } = options;
 
     function bindedOnItemClick(onItemClick: (item: T) => void, item: T, e: React.MouseEvent) {
@@ -59,7 +58,7 @@ function withList<T>(options: Options<T>) {
           dataSource={items}
           renderItem={renderItem.bind(null, props)}
           loading={loading}
-          bordered={true}
+          bordered
         />
       );
     };

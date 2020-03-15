@@ -23,6 +23,4 @@ axios.interceptors.request.use(async (config) => {
   }
 
   return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+}, error => Promise.reject(error));

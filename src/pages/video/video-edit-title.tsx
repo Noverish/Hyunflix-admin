@@ -123,9 +123,7 @@ const VideoEditTitlePage: React.FC<Props> = (props) => {
     }),
   ), [originList, modifyList]);
 
-  const messages = useMemo(() => {
-    return msgs.map((str, i) => <p key={i}>{str}</p>);
-  }, [msgs]);
+  const messages = useMemo(() => msgs.map(str => <p key={str}>{str}</p>), [msgs]);
 
   return (
     <div>
@@ -140,7 +138,7 @@ const VideoEditTitlePage: React.FC<Props> = (props) => {
       <Input onChange={onInputChange1} value={input1} placeholder="input 1" />
       <Input onChange={onInputChange2} value={input2} placeholder="input 2" />
       <Checkbox onChange={onCheckChange} checked={checked}>is Regex</Checkbox>
-      <Table dataSource={dataSource} columns={columns} size="small" rowKey="index"/>
+      <Table dataSource={dataSource} columns={columns} size="small" rowKey="index" />
       {messages}
     </div>
   );

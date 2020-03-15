@@ -19,11 +19,11 @@ class LoginPage extends React.Component<Props> {
         return;
       }
 
-      const password = values['password'];
+      const { password } = values;
 
       this.props.login(password);
     });
-  }
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;

@@ -9,10 +9,10 @@ class AdminLayout extends React.Component<RouteComponentProps> {
     const path: string = this.props.location.pathname;
 
     const items = [
-      { name: 'Encoding List',    path: '/encode',   icon: 'youtube' },
-      { name: 'File Explorer',    path: '/explorer', icon: 'folder'  },
-      { name: 'Video List',       path: '/video',    icon: 'play-circle'  },
-      { name: 'Download Youtube', path: '/youtube',  icon: 'youtube'  },
+      { name: 'Encoding List', path: '/encode', icon: 'youtube' },
+      { name: 'File Explorer', path: '/explorer', icon: 'folder' },
+      { name: 'Video List', path: '/video', icon: 'play-circle' },
+      { name: 'Download Youtube', path: '/youtube', icon: 'youtube' },
     ];
 
     const selectedKeys: string[] = items.filter(i => path.startsWith(i.path)).map(i => i.path);
@@ -27,10 +27,10 @@ class AdminLayout extends React.Component<RouteComponentProps> {
     ));
 
     const links = [
-      { name: 'Home',               path: 'http://home.hyunsub.kim',      icon: 'home' },
-      { name: 'Database',           path: 'http://home.hyunsub.kim:5000', icon: 'database' },
-      { name: 'Torrent',            path: 'http://home.hyunsub.kim:8082', icon: 'download' },
-      { name: 'File Browser',       path: 'http://home.hyunsub.kim:8090', icon: 'folder' },
+      { name: 'Home', path: 'http://home.hyunsub.kim', icon: 'home' },
+      { name: 'Database', path: 'http://home.hyunsub.kim:5000', icon: 'database' },
+      { name: 'Torrent', path: 'http://home.hyunsub.kim:8082', icon: 'download' },
+      { name: 'File Browser', path: 'http://home.hyunsub.kim:8090', icon: 'folder' },
       { name: 'Visual Studio Code', path: 'http://home.hyunsub.kim:8443', icon: 'build' },
     ];
 
@@ -51,7 +51,7 @@ class AdminLayout extends React.Component<RouteComponentProps> {
         </Menu.ItemGroup>
       </Menu>
     );
-  }
+  };
 
   render() {
     return (

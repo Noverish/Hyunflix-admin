@@ -27,8 +27,7 @@ const VideoPage: React.FC<Props> = (props) => {
 
     setChecklist(isChecked
       ? checklist.filter(v => !isEqualVideo(v, video))
-      : [...checklist, video],
-    );
+      : [...checklist, video]);
   }, [checklist, setChecklist]);
 
   const setPage = useCallback((page) => {
@@ -44,19 +43,22 @@ const VideoPage: React.FC<Props> = (props) => {
   }, [setChecklist]);
 
   // components
-  const headerExtra = useMemo(() => checkable ? (
-    <React.Fragment>
-      <span>{checklist.length}개 선택됨</span>
+  const headerExtra = useMemo(() => (checkable ? (
+    <>
+      <span>
+        {checklist.length}
+        개 선택됨
+      </span>
       <Button onClick={goToVideoEditPage} disabled={checklist.length === 0}>Edit</Button>
       <Button onClick={clearChecklist} disabled={checklist.length === 0}>Clear Checklist</Button>
       <Button type="danger" onClick={setCheckable.bind(null, false)}>Cancel</Button>
-    </React.Fragment>
+    </>
   ) : (
     <Button onClick={setCheckable.bind(null, true)}>Select</Button>
-  ), [checkable, checklist.length, goToVideoEditPage, clearChecklist]);
+  )), [checkable, checklist.length, goToVideoEditPage, clearChecklist]);
 
   return (
-    <React.Fragment>
+    <>
       <PageHeader title="Video List" extra={headerExtra} />
       <VideoListWithPagination
         items={searchState.items}
@@ -68,7 +70,7 @@ const VideoPage: React.FC<Props> = (props) => {
         onItemClick={checkable ? onItemCheck : undefined}
         checklist={checkable ? checklist : undefined}
       />
-    </React.Fragment>
+    </>
   );
 };
 

@@ -27,9 +27,7 @@ const VideoAddPage: React.FC<Props> = (props) => {
     })();
   }, [checklist]);
 
-  const messages = useMemo(() => {
-    return msgs.map((str, i) => <p key={i}>{str}</p>);
-  }, [msgs]);
+  const messages = useMemo(() => msgs.map(str => <p key={str}>{str}</p>), [msgs]);
 
   return (
     <div>

@@ -23,7 +23,7 @@ const YoutubePage: React.FC = () => {
     };
 
     return () => {
-      es && es.close();
+      es?.close();
     };
   }, []);
 

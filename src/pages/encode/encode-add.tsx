@@ -30,7 +30,7 @@ const EncodeAddPage: React.FC<Props> = (props) => {
     (async () => {
       for (const f of checklist) {
         const inpath = f.path;
-        const outpath = dirname(inpath) + '/' + basename(inpath, extname(inpath)) + '.mp4';
+        const outpath = `${dirname(inpath)}/${basename(inpath, extname(inpath))}.mp4`;
         await encodeAdd(inpath, option, outpath);
         setMsgs(msg => [...msg, inpath]);
       }
@@ -47,13 +47,9 @@ const EncodeAddPage: React.FC<Props> = (props) => {
   };
 
   // components
-  const radioButtons = useMemo(() => Object.keys(presets).map((k: string) =>
-    <Radio.Button value={presets[k]} key={k}>{k}</Radio.Button>,
-  ), [presets]);
+  const radioButtons = useMemo(() => Object.keys(presets).map((k: string) => <Radio.Button value={presets[k]} key={k}>{k}</Radio.Button>), [presets]);
 
-  const messages = useMemo(() => {
-    return msgs.map((str, i) => <p key={i}>{str}</p>);
-  }, [msgs]);
+  const messages = useMemo(() => msgs.map(str => <p key={str}>{str}</p>), [msgs]);
 
   return (
     <div>
@@ -62,7 +58,7 @@ const EncodeAddPage: React.FC<Props> = (props) => {
         {radioButtons}
       </Radio.Group>
       <Input.TextArea
-        autoSize={true}
+        autoSize
         placeholder="options"
         value={option}
         onChange={onInputChange}

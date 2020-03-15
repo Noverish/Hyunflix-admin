@@ -16,7 +16,7 @@ export async function rename(from: string, to: string): Promise<void> {
   const config: AxiosRequestConfig = {
     url: `${API_SERVER}/fs/rename`,
     method: 'post',
-    data: { from , to },
+    data: { from, to },
   };
 
   await axios(config);

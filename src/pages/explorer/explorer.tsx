@@ -40,7 +40,7 @@ const ExplorerPage: FC<Props> = (props) => {
   const [checkable, setCheckable] = useState(false);
   const { checklist, setChecklist } = props;
 
-  const path = '/' + (props.match.params['path'] || '');
+  const path = `/${props.match.params['path'] || ''}`;
 
   useEffect(() => {
     setLoading(true);
@@ -51,7 +51,7 @@ const ExplorerPage: FC<Props> = (props) => {
 
   // functions
   const onItemClick = useCallback((file: File) => {
-    props.history.push('/explorer' + file.path);
+    props.history.push(`/explorer${file.path}`);
   }, [props.history]);
 
   const onItemCheck = useCallback((file: File) => {
@@ -59,8 +59,7 @@ const ExplorerPage: FC<Props> = (props) => {
 
     setChecklist(isChecked
       ? checklist.filter(f => !isEqualFile(f, file))
-      : [...checklist, file],
-    );
+      : [...checklist, file]);
   }, [checklist, setChecklist]);
 
   const goToEncodeAddPage = useCallback(() => {
@@ -76,22 +75,25 @@ const ExplorerPage: FC<Props> = (props) => {
   }, [setChecklist]);
 
   // components
-  const headerExtra = useMemo(() => checkable ? (
-    <React.Fragment>
-      <span>{checklist.length}개 선택됨</span>
+  const headerExtra = useMemo(() => (checkable ? (
+    <>
+      <span>
+        {checklist.length}
+        개 선택됨
+      </span>
       <Button onClick={goToEncodeAddPage} disabled={checklist.length === 0}>Encode</Button>
       <Button onClick={goToVideoAddPage} disabled={checklist.length === 0}>Add Video</Button>
       <Button onClick={clearChecklist} disabled={checklist.length === 0}>Clear Checklist</Button>
       <Button type="danger" onClick={setCheckable.bind(null, false)}>Cancel</Button>
-    </React.Fragment>
+    </>
   ) : (
     <Button onClick={setCheckable.bind(null, true)}>Select</Button>
-  ), [checkable, checklist.length, goToVideoAddPage, goToEncodeAddPage, clearChecklist]);
+  )), [checkable, checklist.length, goToVideoAddPage, goToEncodeAddPage, clearChecklist]);
 
   const breadcrumb = useMemo(() => renderBreadcrumb(path), [path]);
 
   return (
-    <React.Fragment>
+    <>
       <PageHeader title={breadcrumb} extra={headerExtra} />
       <FileList
         items={files}
@@ -99,7 +101,7 @@ const ExplorerPage: FC<Props> = (props) => {
         loading={loading}
         checklist={checkable ? checklist : undefined}
       />
-    </React.Fragment>
+    </>
   );
 };
 

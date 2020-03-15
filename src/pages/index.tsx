@@ -10,21 +10,19 @@ import VideoEditTitlePage from './video/video-edit-title';
 import YoutubePage from './youtube/youtube';
 import AdminLayout from './admin-layout';
 
-const IndexRoutes: React.FunctionComponent = () => {
-  return (
-    <AdminLayout>
-      <Switch>
-        <Route path="/encode/add" component={EncodeAddPage} />
-        <Route path="/encode" component={EncodePage} />
-        <Route path="/explorer/:path*" component={ExplorerPage} />
-        <Route path="/video/add" component={VideoAddPage} />
-        <Route path="/video/edit-title" component={VideoEditTitlePage} />
-        <Route path="/video" component={VideoPage} />
-        <Route path="/youtube" component={YoutubePage} />
-        <Route><Redirect to="/encode" /></Route>
-      </Switch>
-    </AdminLayout>
-  );
-};
+const IndexRoutes: React.FunctionComponent = () => (
+  <AdminLayout>
+    <Switch>
+      <Route path="/encode/add" component={EncodeAddPage} />
+      <Route path="/encode" component={EncodePage} />
+      <Route path="/explorer/:path*" component={ExplorerPage} />
+      <Route path="/video/add" component={VideoAddPage} />
+      <Route path="/video/edit-title" component={VideoEditTitlePage} />
+      <Route path="/video" component={VideoPage} />
+      <Route path="/youtube" component={YoutubePage} />
+      <Route><Redirect to="/encode" /></Route>
+    </Switch>
+  </AdminLayout>
+);
 
 export default IndexRoutes;

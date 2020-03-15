@@ -11,7 +11,7 @@ export interface SearchState<T> {
 
 export type Result<T> = [SearchState<T>, Dispatch<SetStateAction<SearchState<T>>>];
 
-export const useSearch = <T>(pageSize: number, search: (page: number, pageSize: number) => Promise<SearchResult<T>>): Result<T> => {
+export function useSearch<T>(pageSize: number, search: (page: number, pageSize: number) => Promise<SearchResult<T>>): Result<T> {
   const [state, setState] = useState({
     total: 0,
     items: [],
@@ -36,4 +36,4 @@ export const useSearch = <T>(pageSize: number, search: (page: number, pageSize: 
   }, [pageSize, search, page]);
 
   return [state, setState];
-};
+}

@@ -13,10 +13,10 @@ function withPagination<OriginalProps extends {}>(Component: ComponentType<Origi
     const { total, page, pageSize, onPageChange } = props;
 
     return (
-      <React.Fragment>
+      <>
         <Component {...props} />
-        <Pagination current={page} total={total} pageSize={pageSize} onChange={onPageChange}/>
-      </React.Fragment>
+        <Pagination current={page} total={total} pageSize={pageSize} onChange={onPageChange} />
+      </>
     );
   };
 

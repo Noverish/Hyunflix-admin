@@ -9,7 +9,7 @@ export const VideoItem: React.FC<InjectedProps<Video>> = (props) => {
   const { item, checked } = props;
 
   return (
-    <React.Fragment>
+    <>
       {checked !== undefined && <Checkbox checked={checked} />}
       <span>{item.id}</span>
       <Tag>{item.tags}</Tag>
@@ -17,7 +17,7 @@ export const VideoItem: React.FC<InjectedProps<Video>> = (props) => {
       <span>{item.durationString}</span>
       <Tag>{item.resolution}</Tag>
       <span>{item.date}</span>
-    </React.Fragment>
+    </>
   );
 };
 

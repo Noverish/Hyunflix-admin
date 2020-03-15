@@ -39,7 +39,7 @@ const EncodePage: FC = () => {
     //   .then(setExist);
 
     return () => {
-      es && es.close();
+      es?.close();
     };
   }, [setSearchState, updateItem]);
 
@@ -64,7 +64,7 @@ const EncodePage: FC = () => {
   //   : <Tag color="red">프로세스 없음</Tag>
 
   return (
-    <React.Fragment>
+    <>
       <PageHeader title="인코딩 리스트" />
       <EncodeListWithPagination
         items={searchState.items}
@@ -74,7 +74,7 @@ const EncodePage: FC = () => {
         loading={searchState.loading}
         onPageChange={setPage}
       />
-    </React.Fragment>
+    </>
   );
 };
 
