@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import { File } from 'models';
-import { API_SERVER } from 'config';
+import { File } from 'src/models';
+import { API_SERVER } from 'src/config';
 
 export async function readdir(path: string): Promise<File[]> {
   const config: AxiosRequestConfig = {

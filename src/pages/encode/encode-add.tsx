@@ -5,10 +5,10 @@ import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { extname, dirname, basename } from 'path';
 
-import { File } from 'models';
-import { RootState } from 'states';
-import { encodePresets, encodeAdd } from 'api';
-import { FileList } from 'components';
+import { File } from 'src/models';
+import { RootState } from 'src/states';
+import { encodePresets, encodeAdd } from 'src/api';
+import { FileList } from 'src/components';
 
 interface Props extends RouteComponentProps {
   checklist: File[];

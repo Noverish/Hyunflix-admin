@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import { API_SERVER } from 'config';
-import { Video } from 'models';
+import { API_SERVER } from 'src/config';
+import { Video } from 'src/models';
 
 export interface VideoListResult {
   total: number;

@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import { API_SERVER } from 'config';
+import { API_SERVER } from 'src/config';
 
 export async function youtubeDownload(url: string, tags: string[]): Promise<void> {
   const config: AxiosRequestConfig = {

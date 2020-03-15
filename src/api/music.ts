@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { stringify } from 'querystring';
 
-import { Music } from 'models';
-import { API_SERVER } from 'config';
+import { Music } from 'src/models';
+import { API_SERVER } from 'src/config';
 
 export interface MusicListResult {
   total: number;

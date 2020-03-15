@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useCallback } from 'react';
 import { PageHeader } from 'antd';
 
-import { EncodeListWithPagination } from 'components';
-import { Encode, EncodeStatus } from 'models';
-import { encodeList } from 'api';
-import { useSearch } from 'hooks';
-import { PAGE_SIZE } from 'config';
+import { EncodeListWithPagination } from 'src/components';
+import { Encode, EncodeStatus } from 'src/models';
+import { encodeList } from 'src/api';
+import { useSearch } from 'src/hooks';
+import { PAGE_SIZE } from 'src/config';
 
 let es: EventSource | null = null;
 

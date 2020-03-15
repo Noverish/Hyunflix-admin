@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import * as NodeRSA from 'node-rsa';
 
-import { AUTH_SERVER } from 'config';
-import { LoginResult } from 'models';
+import { AUTH_SERVER } from 'src/config';
+import { LoginResult } from 'src/models';
 
 export async function getRSAKey(): Promise<string> {
   const config: AxiosRequestConfig = {

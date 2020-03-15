@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { REFRESH_TOKEN_HEADER, ACCESS_TOKEN_HEADER, AUTH_SERVER, API_SERVER } from 'config';
+import { REFRESH_TOKEN_HEADER, ACCESS_TOKEN_HEADER, AUTH_SERVER, API_SERVER } from 'src/config';
 
 export * from './auth';
 export * from './encode';
@@ -14,7 +14,7 @@ export interface SearchResult<T> {
 }
 
 axios.interceptors.request.use(async (config) => {
-  const { store } = await import('states');
+  const { store } = await import('src/states');
 
   if (config.url?.startsWith(AUTH_SERVER)) {
     config.headers[REFRESH_TOKEN_HEADER] = store.getState().auth.refreshToken;

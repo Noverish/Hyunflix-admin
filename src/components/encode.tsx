@@ -2,9 +2,9 @@ import React from 'react';
 import { Tag, Progress } from 'antd';
 import { basename } from 'path';
 
-import withList, { InjectedProps } from 'components/hoc/with-list';
-import withPagination from 'components/hoc/with-pagination';
-import { Encode, isEqualEncode } from 'models';
+import withList, { InjectedProps } from 'src/components/hoc/with-list';
+import withPagination from 'src/components/hoc/with-pagination';
+import { Encode, isEqualEncode } from 'src/models';
 
 export const EncodeItem: React.FC<InjectedProps<Encode>> = (props) => {
   const { item } = props;

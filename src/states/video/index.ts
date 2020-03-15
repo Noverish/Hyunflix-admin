@@ -1,6 +1,6 @@
 import { createAction, createReducer, ActionType } from 'typesafe-actions';
 import { combineReducers } from 'redux';
-import { Video } from 'models';
+import { Video } from 'src/models';
 
 // Actions
 export const setVideoChecklistAction = createAction('SET_VIDEO_CHECKLIST')<Video[]>();

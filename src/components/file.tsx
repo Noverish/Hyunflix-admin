@@ -1,8 +1,8 @@
 import React from 'react';
 import { Checkbox, Icon } from 'antd';
 
-import withList, { InjectedProps } from 'components/hoc/with-list';
-import { File, isEqualFile } from 'models';
+import withList, { InjectedProps } from 'src/components/hoc/with-list';
+import { File, isEqualFile } from 'src/models';
 
 export const FileItem: React.FunctionComponent<InjectedProps<File>> = (props) => {
   const { item, checked } = props;

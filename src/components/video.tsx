@@ -1,9 +1,9 @@
 import React from 'react';
 import { Checkbox, Tag } from 'antd';
 
-import withList, { InjectedProps } from 'components/hoc/with-list';
-import withPagination from 'components/hoc/with-pagination';
-import { Video, isEqualVideo } from 'models';
+import withList, { InjectedProps } from 'src/components/hoc/with-list';
+import withPagination from 'src/components/hoc/with-pagination';
+import { Video, isEqualVideo } from 'src/models';
 
 export const VideoItem: React.FC<InjectedProps<Video>> = (props) => {
   const { item, checked } = props;

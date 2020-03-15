@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 
-import { youtubeDownload } from 'api';
-import { YoutubeStatus } from 'models';
-import { API_SERVER } from 'config';
+import { youtubeDownload } from 'src/api';
+import { YoutubeStatus } from 'src/models';
+import { API_SERVER } from 'src/config';
 import YoutubeForm from './youtube-form';
 import YoutubeDownloadStatus from './youtube-status';
 

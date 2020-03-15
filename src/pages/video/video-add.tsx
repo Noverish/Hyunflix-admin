@@ -3,10 +3,10 @@ import { Button } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { File } from 'models';
-import { RootState } from 'states';
-import { videoAdd } from 'api';
-import { FileList } from 'components';
+import { File } from 'src/models';
+import { RootState } from 'src/states';
+import { videoAdd } from 'src/api';
+import { FileList } from 'src/components';
 
 interface Props extends RouteComponentProps {
   checklist: File[];

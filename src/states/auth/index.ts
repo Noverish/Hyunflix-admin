@@ -1,8 +1,8 @@
 import { createAsyncAction, createReducer, getType, ActionType } from 'typesafe-actions';
 import { put, call, takeEvery } from 'redux-saga/effects';
 import { combineReducers } from 'redux';
-import * as Api from 'api';
-import { LoginResult } from 'models';
+import * as Api from 'src/api';
+import { LoginResult } from 'src/models';
 
 // Actions
 export const loginAction = createAsyncAction(

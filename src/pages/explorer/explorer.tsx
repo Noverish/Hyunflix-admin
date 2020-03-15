@@ -3,11 +3,11 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { PageHeader, Button, Breadcrumb } from 'antd';
 import { connect } from 'react-redux';
 
-import * as Api from 'api';
-import { RootState } from 'states';
-import { setChecklistAction } from 'states/file';
-import { File, isEqualFile } from 'models';
-import { FileList } from 'components';
+import * as Api from 'src/api';
+import { RootState } from 'src/states';
+import { setChecklistAction } from 'src/states/file';
+import { File, isEqualFile } from 'src/models';
+import { FileList } from 'src/components';
 
 const renderBreadcrumb = (path: string) => {
   const comps = path.match(/[^/]+/g) || [];

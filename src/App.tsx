@@ -2,9 +2,9 @@ import React from 'react';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import LoginPage from 'pages/login/login';
-import IndexPage from 'pages';
-import { RootState } from 'states';
+import LoginPage from 'src/pages/login/login';
+import IndexPage from 'src/pages';
+import { RootState } from 'src/states';
 
 import 'antd/dist/antd.css';
 

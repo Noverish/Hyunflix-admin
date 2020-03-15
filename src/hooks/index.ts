@@ -1,6 +1,6 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
-import { SearchResult } from 'api';
+import { SearchResult } from 'src/api';
 
 export interface SearchState<T> {
   total: number;

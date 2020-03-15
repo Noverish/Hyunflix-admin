@@ -4,9 +4,9 @@ import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { basename, extname, dirname, join } from 'path';
 
-import { Video, File } from 'models';
-import { RootState } from 'states';
-import { videoUpdate, rename, readdir } from 'api';
+import { Video, File } from 'src/models';
+import { RootState } from 'src/states';
+import { videoUpdate, rename, readdir } from 'src/api';
 
 interface Props extends RouteComponentProps {
   originList: Video[];

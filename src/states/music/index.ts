@@ -1,6 +1,6 @@
 import { createAction, createReducer, ActionType } from 'typesafe-actions';
 import { combineReducers } from 'redux';
-import { Music } from 'models';
+import { Music } from 'src/models';
 
 // Actions
 export const setMusicChecklistAction = createAction('SET_MUSIC_CHECKLIST')<Music[]>();

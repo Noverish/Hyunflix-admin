@@ -1,6 +1,6 @@
 import { createAction, createReducer, ActionType } from 'typesafe-actions';
 import { combineReducers } from 'redux';
-import { File } from 'models';
+import { File } from 'src/models';
 
 // Actions
 export const setChecklistAction = createAction('SET_CHECKLIST')<File[]>();

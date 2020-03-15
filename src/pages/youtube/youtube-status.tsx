@@ -1,7 +1,7 @@
 import React from 'react';
 import { Steps, Progress } from 'antd';
 
-import { YoutubeStatus, YoutubeStage } from 'models';
+import { YoutubeStatus, YoutubeStage } from 'src/models';
 
 const { Step } = Steps;
 

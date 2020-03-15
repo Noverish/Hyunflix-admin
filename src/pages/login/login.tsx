@@ -3,7 +3,7 @@ import { Form, Icon, Input, Button, Typography, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { connect } from 'react-redux';
 
-import { loginAction } from 'states/auth';
+import { loginAction } from 'src/states/auth';
 import './login.css';
 
 interface Props extends FormComponentProps {

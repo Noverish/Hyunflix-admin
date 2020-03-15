@@ -3,13 +3,13 @@ import { PageHeader, Button } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { setVideoChecklistAction } from 'states/video';
-import { RootState } from 'states';
-import { VideoListWithPagination } from 'components';
-import { Video, isEqualVideo } from 'models';
-import { videoList } from 'api';
-import { useSearch } from 'hooks';
-import { PAGE_SIZE } from 'config';
+import { setVideoChecklistAction } from 'src/states/video';
+import { RootState } from 'src/states';
+import { VideoListWithPagination } from 'src/components';
+import { Video, isEqualVideo } from 'src/models';
+import { videoList } from 'src/api';
+import { useSearch } from 'src/hooks';
+import { PAGE_SIZE } from 'src/config';
 
 interface Props extends RouteComponentProps {
   setChecklist: typeof setVideoChecklistAction;
