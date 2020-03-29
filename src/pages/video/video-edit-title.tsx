@@ -94,7 +94,7 @@ const VideoEditTitlePage: React.FC<Props> = (props) => {
         const originTitle = basename(origin.path, extname(origin.path));
         const originParent = dirname(origin.path);
 
-        await videoUpdate(modify.id, { title: modifyTitle, path: modify.path });
+        await videoUpdate(modify.id, { path: modify.path });
         await rename(origin.path, modify.path);
         setMsgs(msg => [...msg, `${origin.path} => ${modify.path}`]);
 
