@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Radio, Input, Button } from 'antd';
+import { Radio, Input, Button, Form, Collapse } from 'antd';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -8,7 +8,9 @@ import { extname, dirname, basename } from 'path';
 import { File } from 'src/models';
 import { RootState } from 'src/states';
 import { encodePresets, encodeAdd } from 'src/api';
-import { FileList } from 'src/components';
+import { FormInstance } from 'antd/lib/form';
+
+const { Panel } = Collapse;
 
 interface Props extends RouteComponentProps {
   checklist: File[];
@@ -17,54 +19,84 @@ interface Props extends RouteComponentProps {
 const EncodeAddPage: React.FC<Props> = (props) => {
   const { checklist } = props;
   const [presets, setPresets] = useState({} as object);
-  const [option, setOption] = useState('');
-  const [msgs, setMsgs] = useState([] as string[]);
+  const [msg, setMsg] = useState('');
+
+  const forms: FormInstance[] = Array.from({ length: checklist.length }, () => Form.useForm()[0]);
 
   useEffect(() => {
     encodePresets()
-      .then(setPresets);
+      .then(setPresets)
+      .catch(() => {});
   }, []);
 
+  useEffect(() => {
+    checklist.forEach((item, i) => {
+      const inpath = item.path;
+      forms[i].setFieldsValue({
+        inpath,
+        outpath: `${dirname(inpath)}/${basename(inpath, extname(inpath))}.mp4`,
+      });
+    });
+  }, [checklist, forms]);
+
   // functions
-  const onClick = useCallback(() => {
-    (async () => {
-      for (const f of checklist) {
-        const inpath = f.path;
-        const outpath = `${dirname(inpath)}/${basename(inpath, extname(inpath))}.mp4`;
-        await encodeAdd(inpath, option, outpath);
-        setMsgs(msg => [...msg, inpath]);
-      }
-      setMsgs(msg => [...msg, 'done']);
-    })();
-  }, [checklist, option]);
+  const onSubmit = useCallback(() => {
+    Promise.all(forms.map(f => f.validateFields()))
+      .then(values => (
+        Promise.all(values.map(value => (
+          encodeAdd(value.inpath, value.options, value.outpath)
+        )))
+      ))
+      .then(() => setMsg('done'))
+      .catch(error => setMsg(error.toString()));
+  }, [forms]);
 
-  const onRadioChange = (e: RadioChangeEvent) => {
-    setOption(e.target.value);
-  };
-
-  const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setOption(e.target.value);
-  };
+  const onRadioChange = useCallback((e: RadioChangeEvent) => {
+    forms.forEach(f => f.setFieldsValue({ options: e.target.value }));
+  }, [forms]);
 
   // components
-  const radioButtons = useMemo(() => Object.keys(presets).map((k: string) => <Radio.Button value={presets[k]} key={k}>{k}</Radio.Button>), [presets]);
+  const radioButtons = useMemo(() => (
+    Object.keys(presets).map((k: string) => (
+      <Radio.Button value={presets[k]} key={k}>{k}</Radio.Button>
+    ))
+  ), [presets]);
 
-  const messages = useMemo(() => msgs.map(str => <p key={str}>{str}</p>), [msgs]);
+  const panels = useMemo(() => (
+    checklist.map((item, i) => (
+      <Panel header={item.name} key={item.name} forceRender>
+        <Form
+          name={i.toString()}
+          form={forms[i]}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 20 }}
+        >
+          <Form.Item label="inpath" name="inpath">
+            <Input disabled />
+          </Form.Item>
+          <Form.Item label="options" name="options">
+            <Input />
+          </Form.Item>
+          <Form.Item label="outpath" name="outpath">
+            <Input />
+          </Form.Item>
+        </Form>
+      </Panel>
+    ))
+  ), [checklist, forms]);
 
   return (
     <div>
-      <FileList items={checklist} />
       <Radio.Group value="large" onChange={onRadioChange}>
         {radioButtons}
       </Radio.Group>
-      <Input.TextArea
-        autoSize
-        placeholder="options"
-        value={option}
-        onChange={onInputChange}
-      />
-      <Button onClick={onClick}>인코딩</Button>
-      {messages}
+      <Collapse>
+        {panels}
+      </Collapse>
+      <Button type="primary" onClick={onSubmit}>
+        인코딩
+      </Button>
+      <p>{msg}</p>
     </div>
   );
 };
