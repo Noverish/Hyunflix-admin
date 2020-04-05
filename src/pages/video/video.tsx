@@ -8,7 +8,7 @@ import { RootState } from 'src/states';
 import { VideoListWithPagination } from 'src/components';
 import { Video, isEqualVideo } from 'src/models';
 import { videoList } from 'src/api';
-import { useSearch } from 'src/hooks';
+import { useSearch } from 'src/hooks/search-old';
 import { PAGE_SIZE } from 'src/config';
 
 interface Props extends RouteComponentProps {

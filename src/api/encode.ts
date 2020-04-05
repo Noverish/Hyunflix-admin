@@ -40,11 +40,11 @@ export async function ffmpegResume(): Promise<void> {
   await axios(config);
 }
 
-export async function encodeList(page: number, pageSize: number): Promise<SearchResult<Encode>> {
+export async function encodeList(query: string, page: number, pageSize: number): Promise<SearchResult<Encode>> {
   const config: AxiosRequestConfig = {
     url: `${API_SERVER}/encodes`,
     method: 'get',
-    params: { q: '', p: page, ps: pageSize },
+    params: { q: query, p: page, ps: pageSize },
   };
 
   return (await axios(config)).data;

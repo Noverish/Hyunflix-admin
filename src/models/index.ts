@@ -1,15 +1,5 @@
 export * from './auth';
-
-export interface Encode {
-  id: number;
-  inpath: string;
-  outpath: string;
-  options: string;
-  progress: number;
-  date: string;
-}
-
-export const isEqualEncode = (v1: Encode, v2: Encode) => v1.id === v2.id;
+export * from './encode';
 
 export interface File {
   path: string;

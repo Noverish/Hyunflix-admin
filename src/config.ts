@@ -14,3 +14,5 @@ export const API_SERVER = (process.env.NODE_ENV === 'development')
 export const AUTH_SERVER = (process.env.NODE_ENV === 'development')
   ? `${protocol}//${hostname}:8080/auth`
   : 'https://auth.hyunsub.kim';
+
+export const ENCODE_SERVER_SSE_PATH = 'http://home.hyunsub.kim:8600/ffmpeg';
