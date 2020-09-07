@@ -70,6 +70,10 @@ const ExplorerPage: FC<Props> = (props) => {
     props.history.push('/video/add');
   }, [props.history]);
 
+  const goToMusicAddPage = useCallback(() => {
+    props.history.push('/music/add');
+  }, [props.history]);
+
   const clearChecklist = useCallback(() => {
     setChecklist([]);
   }, [setChecklist]);
@@ -83,12 +87,13 @@ const ExplorerPage: FC<Props> = (props) => {
       </span>
       <Button onClick={goToEncodeAddPage} disabled={checklist.length === 0}>Encode</Button>
       <Button onClick={goToVideoAddPage} disabled={checklist.length === 0}>Add Video</Button>
+      <Button onClick={goToMusicAddPage} disabled={checklist.length === 0}>Add Music</Button>
       <Button onClick={clearChecklist} disabled={checklist.length === 0}>Clear Checklist</Button>
       <Button type="danger" onClick={setCheckable.bind(null, false)}>Cancel</Button>
     </>
   ) : (
     <Button onClick={setCheckable.bind(null, true)}>Select</Button>
-  )), [checkable, checklist.length, goToVideoAddPage, goToEncodeAddPage, clearChecklist]);
+  )), [checkable, checklist.length, goToVideoAddPage, goToMusicAddPage, goToEncodeAddPage, clearChecklist]);
 
   const breadcrumb = useMemo(() => renderBreadcrumb(path), [path]);
 

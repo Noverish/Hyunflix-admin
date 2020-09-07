@@ -1,5 +1,5 @@
 {
-  "name": "Hyunflix-admin",
+  "name": "hyunflix-admin",
   "private": true,
   "scripts": {
     "start": "PORT=8020 react-scripts start",

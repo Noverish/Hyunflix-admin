@@ -37,3 +37,13 @@ export async function musicExamine(): Promise<void> {
 
   await axios(config);
 }
+
+export async function musicAdd(path: string): Promise<void> {
+  const config: AxiosRequestConfig = {
+    url: `${API_SERVER}/musics`,
+    method: 'post',
+    data: { path },
+  };
+
+  await axios(config);
+}
